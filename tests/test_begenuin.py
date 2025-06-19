@@ -11,11 +11,11 @@ def test_get_app_button_redirects(page: Page, url):
     new_page = popup_info.value
     assert "play.google" in new_page.url or "apps.apple" in new_page.url
 
-def test_login_invalid_credentials(self, page: Page):
-    self.page.goto("https://begenuin.com/login")
-    self.page.get_by_placeholder("Email").fill("test@example.com")
-    self.page.get_by_placeholder("Password").fill("wrongpass")
-    self.page.get_by_role("button", name="Login").click()
+def test_login_invalid_credentials(page: Page):
+    page.goto("https://begenuin.com/login")
+    page.get_by_placeholder("Email").fill("test@example.com")
+    page.get_by_placeholder("Password").fill("wrongpass")
+    page.get_by_role("button", name="Login").click()
     expect(page.locator(".error-message")).to_contain_text("Invalid credentials")
 
 def test_become_creator_badge(page: Page):
