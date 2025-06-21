@@ -1,12 +1,12 @@
-# 🎭 Playwright Test Automation – BeGenuin Project
+# Playwright Test Automation – BeGenuin Project
 
 This repository contains automated end-to-end UI test cases for the BeGenuin web application using [Playwright](https://playwright.dev/) and `pytest`.
 
 ---
 
-## 🛠️ Project Setup
+## Project Setup
 
-### ✅ Prerequisites
+### Prerequisites
 
 - Python 3.8 or above installed
 - Git installed
@@ -14,7 +14,7 @@ This repository contains automated end-to-end UI test cases for the BeGenuin web
 
 ---
 
-### 📦 Install Dependencies
+### Install Dependencies
 
 1. Clone the repository:
 
