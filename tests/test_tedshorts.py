@@ -21,7 +21,7 @@ def test_navigation_tabs(page):
 
 def test_search_feature(page):
     page.goto(BASE_URL)
-    search = page.locator('input[type="search"]')
+    search = page.locator('//input[@id="search-input"]')
     expect(search).to_be_visible()
     search.fill("education")
     search.press("Enter")
@@ -30,7 +30,7 @@ def test_search_feature(page):
 
 def test_get_app_link(page):
     page.goto(BASE_URL)
-    logo = page.locator("a >> text=TED")
+    logo = page.locator('//button[contains(text(), "Get App")]')
     expect(logo).to_be_visible()
     logo.click()
     expect(page).not_to_have_url(BASE_URL)
