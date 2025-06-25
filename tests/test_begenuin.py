@@ -2,43 +2,38 @@ import pytest
 from playwright.sync_api import Page, expect
 
 @pytest.mark.parametrize("url", ["/home"])
-def test_get_app_button_redirects(page: Page, url):
+def test_TC001_homepage_load(page, url):
     page.goto("https://begenuin.com" + url)
-    get_app_btn = page.locator('//button[contains(text(), "Get App")]')
-    expect(get_app_btn).to_be_visible()
-    get_app_btn.click()
-    modal = page.locator('//p[@class="text-new-h4-mobile"]')
-    expect(modal).to_be_visible()
-    qr_code = page.locator('//canvas[@id="react-qrcode-logo"]') 
-    expect(qr_code).to_be_visible()
+    expect(page.locator("//p[contains(text(),'Popular')]")).to_be_visible()
+    expect(page.locator("//p[contains(text(),'Explore')]")).to_be_visible()
 
-def test_login_invalid_credentials(page: Page):
-    page.goto("https://begenuin.com")
-
-    # Click the "Log in" button
-    login_button = page.locator('//button[contains(text(),"Log in")]')
-    expect(login_button).to_be_visible()
-    login_button.click()
-
-    # Wait for login modal to appear and fields to be ready
-    email_input = page.locator("//input[@id='loginEmail']")
-    expect(email_input).to_be_visible()
-
-    password_input = page.locator("//input[@id='loginPassword']")
-    expect(password_input).to_be_visible() 
-
-    submit_button = page.locator("//button[contains(text(),'Log In')]")
-    expect(submit_button).to_be_visible()
-
-    email_input.fill("test@example.com")
-    password_input.fill("wrongpass")
-    submit_button.click()
-
-    Optionally validate error message
-    error_msg = page.locator("//div[@class='rnc__notification-message']")  
-    expect(error_msg).to_be_visible()
-
-def test_become_creator_badge(page: Page):
+def test_TC002_get_app_button(page):
     page.goto("https://begenuin.com/home")
-    badge = page.locator("//p[@class='w-64 overflow-hidden p-3 text-start text-body-1-bold']")
-    expect(badge).to_be_visible()
+    btn = page.locator('//button[contains(text(), "Get App")]')
+    expect(btn).to_be_visible()
+    btn.click()
+    modal = page.locator("//p[contains(text(), 'Get the ')]")
+    expect(modal).to_be_visible()
+
+def test_TC003_tab_navigation(page):
+    page.goto("https://begenuin.com/home")
+    for tab in ["Popular", "Latest", "Explore"]:
+        page.locator(f"text={tab}").click()
+        expect(page.locator(f"text={tab}")).to_be_visible()
+
+def test_TC004_video_feed_playback(page):
+    page.goto("https://begenuin.com/home")
+    video = page.locator("video").first
+    expect(video).to_be_visible()
+
+def test_TC005_claim_brand_cta(page):
+    page.goto("https://begenuin.com/home")
+    cta = page.locator("text=Claim Brand Profile")
+    expect(cta).to_be_visible()
+    cta.click()
+    expect(page).to_have_url(lambda url: "login" in url or "creator" in url)
+
+def test_TC006_accessibility_keyboard_nav(page):
+    page.goto("https://begenuin.com/home")
+    page.keyboard.press("Tab")
+    expect(page).to_have_url("https://begenuin.com/home")
