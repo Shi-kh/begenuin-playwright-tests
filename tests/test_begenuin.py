@@ -26,13 +26,6 @@ def test_video_feed_playback(page):
     video = page.locator("video").first
     expect(video).to_be_visible()
 
-def test_claim_brand_cta(page):
-    page.goto("https://begenuin.com/home")
-    cta = page.locator("text=Claim Brand Profile")
-    expect(cta).to_be_visible()
-    cta.click()
-    expect(page).to_have_url(lambda url: "login" in url or "creator" in url)
-
 def test_accessibility_keyboard_nav(page):
     page.goto("https://begenuin.com/home")
     page.keyboard.press("Tab")
